@@ -1,0 +1,24 @@
+name: Run Postman Tests
+
+on:
+  push:
+    paths:
+      - "Gemini API Workspace Collection.postman_collection.json"
+      - "Gemini API Environment.postman_environment.json"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Postman Collection
+        run: |
+          newman run "Gemini API Workspace Collection.postman_collection.json" \
+          -e "Gemini API Environment.postman_environment.json"
