@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "3a38227e-a403-4b57-a7aa-ed4e860d470b",
+		"name": "Gemini API Workspace Collection",
+		"description": "Pre-built Gemini API requests for text generation using Gemini 1.5 Pro and Chat Bison.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43509182"
+	},
+	"item": [
+		{
+			"name": "Gemini 1.5 Pro - Generate Content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has content\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.candidates[0].content.parts[0].text.length).to.be.above(0);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"contents\": [\n    {\n      \"parts\": [\n        {\n          \"text\": \"Write a poem about a coding wizard who casts bug-fixing spells.\"\n        }\n      ]\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/models/gemini-1.5-pro:generateContent?key={{api_key}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"models",
+						"gemini-1.5-pro:generateContent"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api_key}}"
+						}
+					]
+				},
+				"description": "Generates text using the Gemini 1.5 Pro model."
+			},
+			"response": []
+		},
+		{
+			"name": "Chat Bison - Generate Message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"prompt\": {\n    \"messages\": [\n      {\n        \"author\": \"user\",\n        \"content\": \"Tell me a fun fact about space.\"\n      }\n    ]\n  }\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/models/chat-bison-001:generateMessage?key={{api_key}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"models",
+						"chat-bison-001:generateMessage"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api_key}}"
+						}
+					]
+				},
+				"description": "Legacy PaLM2 chat model for generating messages."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://generativelanguage.googleapis.com/v1beta"
+		},
+		{
+			"key": "api_key",
+			"value": "<YOUR_API_KEY>"
+		}
+	]
+}
